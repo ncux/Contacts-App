@@ -1,0 +1,11 @@
+
+# IDEs
+.vscode
+/.idea
+
+# configs and stuff
+/server/config/settings.js
+
+# node_modules
+/server/node_modules
+/client/node_modules
