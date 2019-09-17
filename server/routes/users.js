@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 // User model
-const User = require('../models/user');
+const User = require('../models/User');
 
 
 // // render the login form
@@ -37,51 +38,40 @@ const User = require('../models/user');
 
 
 // register a new user
-router.post('/registration', async (req, res) => {
-    console.log(req.body);
-    const { fullname, email, password, password2 } = req.body;
-    const errors = [];
-
-    // check for required fields
-    if (!fullname || !email || !password || !password2) {
-        errors.push({ message: 'Please fill in all fields!' });
-    }
-
-    // check passwords match
-    if (password !== password2) {
-        errors.push({ message: 'The passwords do not match!' });
-    }
-
-    // check if password isn't too short
-    if (password.length < 8) {
-        errors.push({ message: 'Password must be at least 8 characters long!' });
-    }
-
-    if (errors.length > 0) {
-        res.render('register', { errors, fullname, email, password, password2 });
-    } else {
-        // check if user already exists
-        let user = await User.findOne({ email: email });
-        if (user) {
-            // flash error message
-            req.flash('error_message', 'Email already exists. Try logging in.');
-            // redirect to login page
-            res.redirect('/auth/login');
+router.post('/registration', [
+    check('fullname', 'Full name is required').not().isEmpty(),
+    check('email', 'Email address is required').not().isEmpty(),
+    check('email', 'Enter a valid email address').isEmail(),
+    check('password', 'Password address is required').not().isEmpty(),
+    check('password', 'The password is too short').isLength({ min: 6 }),
+    check('password', 'The passwords do not match').custom((value,{req, loc, path}) => {
+        if (value !== req.body.password2) {
+            throw new Error("Passwords don't match");
         } else {
-            // register new user
-            let newUser = new User({ fullname, email, password });
-
-            // hash the password and save the user
-            bcrypt.genSalt(10, (err, salt) => bcrypt.hash(password, salt, async (err, hash) => {
-                if (err) throw err;
-                newUser.password = hash;
-                await newUser.save();
-                // flash success message
-                req.flash('success_message', 'You are now registered. Please login.');
-                res.redirect('/auth/login');
-            }));
-
+            return value;
         }
+    }),
+], async (req, res) => {
+    const errors = validationResult(req) || [];
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    const { fullname, email, password, password2 } = req.body;
+    try {
+        let user = await User.findOne({ email });
+        if(user) {
+            res.status(400).json({ message: 'Email already exists. Try logging in' });
+        } else {
+            user = new User({ fullname, email, password });
+            // hash the password and save the user
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(password, salt);
+            await user.save();
+            res.send(`user: ${user}`);
+        }
+    } catch (e) {
+        console.error(e.message);
+        res.status(500).json({ message: 'A server error occurred' });
     }
 
 });

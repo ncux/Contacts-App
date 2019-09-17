@@ -23,4 +23,4 @@ const User = mongoose.Schema(
 
 );
 
-module.exports = mongoose.model('mern - contacts app', User);
+module.exports = mongoose.model('mern - contacts app users', User);

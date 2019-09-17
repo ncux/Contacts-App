@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const Contact = require('../models/contacts');
+const Contact = require('../models/Contact');
 
 // get all logged in user's contacts [OK!]
 router.get('/', async (req, res) => {

@@ -1,0 +1,3 @@
+{
+  "dbUrl": "mongodb://mLabMongoDBdb:mLabMongoDBdb@ds143039.mlab.com:43039/note-taker"
+}
