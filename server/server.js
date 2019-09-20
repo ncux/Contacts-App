@@ -1,10 +1,6 @@
 const express = require('express');
-const path = require('path');
 
 const port = process.env.PORT || 5000;
-
-// config settings
-const settings = require('./config/settings');
 
 // bootstrap database connection
 const database = require('./config/database');
@@ -15,11 +11,7 @@ const contacts = require('./routes/contacts');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 
-
 const app = express();
-
-// static dir
-// app.use(express.static(path.join(__dirname, 'public')));
 
 // body-parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.json({ extended: false }));
