@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ContactContext } from "../../contexts/contact/context";
 import PropTypes from 'prop-types';
 
 export const SingleContact = ({ contact }) => {
 
     const { id, fullname, email, phone, type  } = contact;
+    const { removeContact, setCurrentContactData } = useContext(ContactContext);
 
     return (
         <div className="card bg-light">
@@ -18,8 +20,8 @@ export const SingleContact = ({ contact }) => {
                 { phone && (<li><i className="fas fa-phone"></i> { phone }</li>) }
             </ul>
             <p>
-                <button className="btn btn-dark btn-sm">Edit</button>
-                <button className="btn btn-danger btn-sm">Delete</button>
+                <button onClick={ () => setCurrentContactData(contact) } className="btn btn-dark btn-sm">Edit</button>
+                <button onClick={ () => removeContact(id) } className="btn btn-danger btn-sm">Delete</button>
             </p>
         </div>
     );

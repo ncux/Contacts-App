@@ -8,7 +8,7 @@ export const ContactsList = props => {
     const { contacts } = useContext(ContactContext);
 
     return contacts.length ? (
-        <Fragment className="">
+        <Fragment>
             <h2>Contacts</h2>
             <br />
             { contacts.map(contact => (
