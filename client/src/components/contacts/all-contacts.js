@@ -1,25 +1,40 @@
 import React, { Fragment, useContext } from 'react';
 import { ContactContext } from "../../contexts/contact/context";
 import { SingleContact } from "./single-contact";
+import { FilterContacts } from "./filter-contacts";
 
 
 export const ContactsList = props => {
 
-    const { contacts } = useContext(ContactContext);
+    const { contacts, filteredContacts } = useContext(ContactContext);
 
-    return contacts.length ? (
+    if(!contacts.length) {
+        return (
+            <div className="text-center">
+                <h5>There are no contacts in your list</h5>
+            </div>
+        )
+    }
+
+    return (
         <Fragment>
-            <h2>Contacts</h2>
-            <br />
-            { contacts.map(contact => (
+            { filteredContacts.length ? filteredContacts.map(contact => (
+                <Fragment>
+                    <h2>Contacts</h2>
+                    <FilterContacts />
                     <SingleContact contact={ contact } key={contact.id} />
-            )) }
-        </Fragment>
-    ) : (
-        <div className="noBooks">
-            <p>There are 0 contacts in your list. </p>
-        </div>
-    );
+                </Fragment>
 
+            )) : (
+                contacts.map(contact => (
+                    <Fragment>
+                        <h2>Contacts</h2>
+                        <FilterContacts />
+                        <SingleContact contact={ contact } key={contact.id} />
+                    </Fragment>
+                ))
+            ) }
+        </Fragment>
+    );
 };
 
