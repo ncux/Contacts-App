@@ -2,6 +2,8 @@
 # IDEs
 .vscode
 /.idea
+/server/.idea
+/client/.idea
 
 # configs and stuff
 /server/config/default.json
