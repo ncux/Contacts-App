@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ContactContext } from "../../contexts/contact/context";
+import { ContactContext } from "../../contexts/contact";
 
 export const ContactForm = props => {
 

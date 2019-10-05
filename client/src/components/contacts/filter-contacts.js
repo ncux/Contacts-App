@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
-import { ContactContext } from "../../contexts/contact/context";
+import { ContactContext } from "../../contexts/contact";
 
 export const FilterContacts = props => {
 

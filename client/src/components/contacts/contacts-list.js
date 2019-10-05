@@ -1,8 +1,7 @@
 import React, { Fragment, useContext } from 'react';
-import { ContactContext } from "../../contexts/contact/context";
+import { ContactContext } from "../../contexts/contact";
 import { SingleContact } from "./single-contact";
 import { FilterContacts } from "./filter-contacts";
-
 
 export const ContactsList = props => {
 
@@ -19,18 +18,18 @@ export const ContactsList = props => {
     return (
         <Fragment>
             { filteredContacts.length ? filteredContacts.map(contact => (
-                <Fragment>
+                <Fragment key={contact.id}>
                     <h2>Contacts</h2>
                     <FilterContacts />
-                    <SingleContact contact={ contact } key={contact.id} />
+                    <SingleContact contact={ contact }  />
                 </Fragment>
 
             )) : (
                 contacts.map(contact => (
-                    <Fragment>
+                    <Fragment key={contact.id}>
                         <h2>Contacts</h2>
                         <FilterContacts />
-                        <SingleContact contact={ contact } key={contact.id} />
+                        <SingleContact contact={ contact }  />
                     </Fragment>
                 ))
             ) }

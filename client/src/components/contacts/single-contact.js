@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ContactContext } from "../../contexts/contact/context";
+import { ContactContext } from "../../contexts/contact";
 import PropTypes from 'prop-types';
 
 export const SingleContact = ({ contact }) => {
