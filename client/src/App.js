@@ -11,6 +11,7 @@ import { Login } from "./components/auth/login/login";
 import { AlertState } from "./contexts/alert";
 import { Alert } from "./components/layout/alert/alert";
 import { setAuthToken } from "./config/httpInterceptor";
+import { AuthGuard } from "./components/routes/authGuard";
 
 // apply the JWT, if available, into the http request headers
 if(localStorage.token) {
@@ -29,7 +30,7 @@ export const App = () => {
                           <div className="container">
                               <Alert />
                               <Switch>
-                                  <Route exact path="/" component={ Home } />
+                                  <AuthGuard exact path="/" component={ Home } />
                                   <Route exact path="/about" component={ About } />
                                   <Route exact path="/register" component={ Registration } />
                                   <Route exact path="/login" component={ Login } />

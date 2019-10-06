@@ -11,7 +11,6 @@ export const Navbar = ({ title, icon }) => {
 
     const onLogout = () => {
         logout();
-       // props.history.push('/login');
     };
 
     const isAuthedLinks = (
@@ -20,7 +19,7 @@ export const Navbar = ({ title, icon }) => {
                 Hello { user && user.fullname }
             </li>
             <li>
-                <a onClick={ onLogout } href="#!">
+                <a onClick={ onLogout } href="#">
                     <i className="fas fa-sign-out-alt"><span className="hide-sm"> Logout</span></i>
                 </a>
             </li>
