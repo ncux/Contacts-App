@@ -1,16 +1,17 @@
 import React, { useContext, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { AlertContext } from "../../../contexts/alert";
 import { AuthContext } from "../../../contexts/authentication";
+import { ContactContext } from "../../../contexts/contact";
 
 export const Navbar = ({ title, icon }) => {
 
-    const { setAlertMessage } = useContext(AlertContext);
     const { user, logout, isAuthed } = useContext(AuthContext);
+    const { clearContacts } = useContext(ContactContext);
 
     const onLogout = () => {
         logout();
+        clearContacts();
     };
 
     const isAuthedLinks = (

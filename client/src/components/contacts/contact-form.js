@@ -22,10 +22,10 @@ export const ContactForm = props => {
     const onFormSubmit = e => {
         e.preventDefault();
         if(currentContact) {
-            updateContact(currentContact.id, fullname, email, phone, type);
+            updateContact(currentContact._id, fullname, email, phone, type);
             clearForm();
         } else {
-            addContact(fullname, email, phone, type);
+            addContact({ fullname, email, phone, type });
             clearForm();
         }
     };

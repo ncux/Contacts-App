@@ -1,13 +1,19 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { ContactContext } from "../../contexts/contact";
 import { SingleContact } from "./single-contact";
 import { FilterContacts } from "./filter-contacts";
+import { Loading } from "../layout/loading/loading";
 
 export const ContactsList = props => {
 
-    const { contacts, filteredContacts } = useContext(ContactContext);
+    const { getContacts, loading, setContacts, contacts, filteredContacts } = useContext(ContactContext);
 
-    if(!contacts.length) {
+    useEffect(() => {
+        getContacts();
+        // eslint-disable-next-line
+    }, []);
+
+    if(contacts !== null && contacts.length === 0 && !loading) {
         return (
             <div className="text-center">
                 <h5>There are no contacts in your list</h5>
@@ -17,22 +23,36 @@ export const ContactsList = props => {
 
     return (
         <Fragment>
+            <h2>Contacts</h2>
+            <FilterContacts />
+            {/*{ contacts !== null && !loading ? (*/}
+            {/*    { filteredContacts.length ? filteredContacts.map(contact => (*/}
+            {/*            <Fragment key={contact._id}>*/}
+            {/*                <SingleContact contact={ contact }  />*/}
+            {/*            </Fragment>*/}
+
+            {/*        )) : (*/}
+            {/*            contacts.map(contact => (*/}
+            {/*                <Fragment key={contact._id}>*/}
+            {/*                    <SingleContact contact={ contact }  />*/}
+            {/*                </Fragment>*/}
+            {/*            ))*/}
+            {/*        ) }*/}
+            {/*) : (<Loading />) }*/}
+
             { filteredContacts.length ? filteredContacts.map(contact => (
-                <Fragment key={contact.id}>
-                    <h2>Contacts</h2>
-                    <FilterContacts />
+                <Fragment key={contact._id}>
                     <SingleContact contact={ contact }  />
                 </Fragment>
 
             )) : (
-                contacts.map(contact => (
-                    <Fragment key={contact.id}>
-                        <h2>Contacts</h2>
-                        <FilterContacts />
+                contacts && contacts.map(contact => (
+                    <Fragment key={contact._id}>
                         <SingleContact contact={ contact }  />
                     </Fragment>
                 ))
             ) }
+
         </Fragment>
     );
 };

@@ -14,9 +14,9 @@ export const AuthState = props => {
     const [error, setError] = useState(null);
 
     // register user and get token
-    const register = async formData => {
+    const register = async newUser => {
         try {
-            const res = await axios.post(`/api/users/registration`, formData, httpHeaders);
+            const res = await axios.post(`/api/users/registration`, newUser, httpHeaders);
             localStorage.setItem('token', res.data.token);
             setToken({ token: localStorage.getItem('token') });
             await loadCurrentUser();
@@ -31,9 +31,9 @@ export const AuthState = props => {
     };
 
     // login user and get token
-    const login = async formData => {
+    const login = async userData => {
         try {
-            const res = await axios.post(`/api/auth/login`, formData, httpHeaders);
+            const res = await axios.post(`/api/auth/login`, userData, httpHeaders);
             localStorage.setItem('token', res.data.token);
             setToken({ token: localStorage.getItem('token') });
             await loadCurrentUser();
@@ -79,9 +79,8 @@ export const AuthState = props => {
     // clear errors
     const clearErrors = () => setError(null);
 
-
     return (
-        <AuthContext.Provider value={{isAuthed, setIsAuthed, register, login, logout, clearErrors, loadCurrentUser, loading, setLoading, error, user, setUser}}>
+        <AuthContext.Provider value={{isAuthed, setIsAuthed, register, login, logout, clearErrors, loadCurrentUser, loading, setLoading, error, setError, user, setUser}}>
             { props.children }
         </AuthContext.Provider>
     )

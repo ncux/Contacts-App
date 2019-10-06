@@ -1,39 +1,77 @@
 import React, { createContext, useState } from 'react';
-import uuid from 'uuid/v1';
+import axios from "axios";
+import { httpHeaders } from "../config/axios";
 
 export const ContactContext = createContext();
 
 export const ContactsState = props => {
 
-    const [contacts, setContacts] = useState([
-        { id: 1, fullname: 'contact one', email: 'one@live.com', phone: '111', type: 'personal' },
-        { id: 2, fullname: 'contact two', email: 'two@gmail.com', phone: '222', type: 'personal' },
-        { id: 3, fullname: 'contact three', email: 'three@yahoo.com', phone: '333', type: 'professional' }
-    ]);
+    const [error, setError] = useState(null);
+
+    const [loading, setLoading] = useState(true);
+
+    const [contacts, setContacts] = useState(null);
 
     const [filteredContacts, setFilteredContacts] = useState([]);
 
     const [currentContact, setCurrentContact] = useState(null);
 
-    const addContact = async (fullname, email, phone, type) => {
-        const contactsList = [...contacts, { fullname, email, phone, type, id: uuid() }];
-        setContacts(contactsList);
+    const addContact = async newContact => {
+        try {
+            const res = await axios.post('/api/contacts/new', newContact, httpHeaders);
+            console.log(res.data);
+            setContacts([res.data.contact, ...contacts]);
+            setLoading(false);
+        } catch (err) {
+            setError(err.response.data.message);
+        }
     };
 
-    const removeContact = id => {
-        let filteredContacts = contacts.filter(contact => contact.id !== id);
-        setContacts([...filteredContacts]);
-        clearCurrent();
+    const getContacts = async () => {
+        try {
+            const res = await axios.get('/api/contacts');
+            console.log(res.data);
+            setContacts(res.data.contacts);
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+            setError(err.message);
+        }
+    };
+
+    // sets contacts to an empty array or null after the use logs out
+    const clearContacts = () => {
+        setContacts(null);
+        setFilteredContacts(null);
+        setCurrentContact(null);
+        setError(null);
+    };
+
+    const removeContact = async id => {
+        try {
+            if(window.confirm('Are you sure you want to delete this contact')) {
+                const res = await axios.delete(`/api/contacts/delete/${id}`);
+                console.log(res.data);
+                let filteredContacts = contacts.filter(contact => contact._id !== id);
+                setContacts([...filteredContacts]);
+                setLoading(false);
+                clearCurrent();
+            }
+        } catch (err) {
+            console.log(err);
+            setError(err.message);
+        }
     };
 
     const setCurrentContactData = async contact => await setCurrentContact(contact);
 
     const clearCurrent = () => setCurrentContact(null);
 
-    const updateContact = async (id, fullname, email, phone, type) => {
-        const updatedContact = { id, fullname, email, phone, type };
-        const updatedContactList = contacts.map(contact => contact.id === id ? updatedContact : contact);
+    const updateContact = async (_id, fullname, email, phone, type) => {
+        const updatedContact = { _id, fullname, email, phone, type };
+        const updatedContactList = contacts.map(contact => contact._id === _id ? updatedContact : contact);
         setContacts(updatedContactList);
+        setLoading(false);
     };
 
     const filterContacts = textInput => {
@@ -48,7 +86,22 @@ export const ContactsState = props => {
 
     return (
         <ContactContext.Provider value={{
-            contacts, currentContact, setCurrentContactData, clearCurrent, addContact, removeContact, updateContact, filteredContacts, setContacts, filterContacts, clearFilteredContacts
+            contacts,
+            currentContact,
+            setCurrentContactData,
+            clearCurrent,
+            addContact,
+            getContacts,
+            clearContacts,
+            loading,
+            removeContact,
+            updateContact,
+            filteredContacts,
+            setContacts,
+            filterContacts,
+            clearFilteredContacts,
+            error,
+            setError
         }}>
             { props.children }
         </ContactContext.Provider>
