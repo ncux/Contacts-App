@@ -68,10 +68,15 @@ export const ContactsState = props => {
     const clearCurrent = () => setCurrentContact(null);
 
     const updateContact = async (_id, fullname, email, phone, type) => {
-        const updatedContact = { _id, fullname, email, phone, type };
-        const updatedContactList = contacts.map(contact => contact._id === _id ? updatedContact : contact);
-        setContacts(updatedContactList);
-        setLoading(false);
+        try {
+            const updatedContact = { _id, fullname, email, phone, type };
+            await axios.put(`/api/contacts/edit/${_id}`, { fullname, email, phone, type }, httpHeaders);
+            const updatedContactList = contacts.map(contact => contact._id === _id ? updatedContact : contact);
+            setContacts(updatedContactList);
+            setLoading(false);
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
     const filterContacts = textInput => {
