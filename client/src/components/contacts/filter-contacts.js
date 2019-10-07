@@ -3,7 +3,7 @@ import { ContactContext } from "../../contexts/contact";
 
 export const FilterContacts = props => {
 
-    const { contacts, setContacts, filteredContacts, filterContacts, clearFilteredContacts } = useContext(ContactContext);
+    const { contacts, setContacts, filterContacts } = useContext(ContactContext);
     const [textInput, setTextInput] = useState('');
 
     useEffect(() => {

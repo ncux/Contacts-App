@@ -6,7 +6,7 @@ import { AuthContext } from "../../contexts/authentication";
 
 export const Home = props => {
 
-    const { loadCurrentUser, isAuthed } = useContext(AuthContext);
+    const { loadCurrentUser } = useContext(AuthContext);
 
     useEffect(() => {
         loadCurrentUser();

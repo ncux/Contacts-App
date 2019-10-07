@@ -6,7 +6,7 @@ import { Loading } from "../layout/loading/loading";
 
 export const ContactsList = props => {
 
-    const { getContacts, loading, setContacts, contacts, filteredContacts } = useContext(ContactContext);
+    const { getContacts, loading, contacts, filteredContacts } = useContext(ContactContext);
 
     useEffect(() => {
         getContacts();
@@ -23,35 +23,23 @@ export const ContactsList = props => {
 
     return (
         <Fragment>
+
             <h2>Contacts</h2>
             <FilterContacts />
-            {/*{ contacts !== null && !loading ? (*/}
-            {/*    { filteredContacts.length ? filteredContacts.map(contact => (*/}
-            {/*            <Fragment key={contact._id}>*/}
-            {/*                <SingleContact contact={ contact }  />*/}
-            {/*            </Fragment>*/}
+            { contacts !== null && !loading ? (
+                 filteredContacts ? filteredContacts.map(contact => (
+                        <Fragment key={contact._id}>
+                            <SingleContact contact={ contact }  />
+                        </Fragment>
 
-            {/*        )) : (*/}
-            {/*            contacts.map(contact => (*/}
-            {/*                <Fragment key={contact._id}>*/}
-            {/*                    <SingleContact contact={ contact }  />*/}
-            {/*                </Fragment>*/}
-            {/*            ))*/}
-            {/*        ) }*/}
-            {/*) : (<Loading />) }*/}
-
-            { filteredContacts.length ? filteredContacts.map(contact => (
-                <Fragment key={contact._id}>
-                    <SingleContact contact={ contact }  />
-                </Fragment>
-
-            )) : (
-                contacts && contacts.map(contact => (
-                    <Fragment key={contact._id}>
-                        <SingleContact contact={ contact }  />
-                    </Fragment>
-                ))
-            ) }
+                    )) : (
+                        contacts.map(contact => (
+                            <Fragment key={contact._id}>
+                                <SingleContact contact={ contact }  />
+                            </Fragment>
+                        ))
+                    )
+            ) : (<Loading />) }
 
         </Fragment>
     );

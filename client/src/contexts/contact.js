@@ -12,7 +12,7 @@ export const ContactsState = props => {
 
     const [contacts, setContacts] = useState(null);
 
-    const [filteredContacts, setFilteredContacts] = useState([]);
+    const [filteredContacts, setFilteredContacts] = useState(null);
 
     const [currentContact, setCurrentContact] = useState(null);
 

@@ -6,7 +6,6 @@ export const AlertContext = createContext();
 export const AlertState = props => {
 
     const [alertsState, setAlertsState] = useState([]);
-   // const [alert, setAlert] = useState({ message: '', id: '' });
 
     // set alert message
     const setAlertMessage = (message, type, timeout=5000) => {

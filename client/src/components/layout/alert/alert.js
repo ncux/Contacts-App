@@ -4,7 +4,7 @@ import { AlertContext } from "../../../contexts/alert";
 
 export const Alert = props => {
 
-    const { setAlertMessage, removeAlert, alertsState, setAlertsState } = useContext(AlertContext);
+    const { alertsState } = useContext(AlertContext);
 
     return (
         alertsState.length > 0 && alertsState.map(alert => (

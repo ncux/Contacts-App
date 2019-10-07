@@ -1,4 +1,4 @@
-import React, { useContext, Fragment, useEffect } from 'react';
+import React, { useContext, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { AuthContext } from "../../../contexts/authentication";
