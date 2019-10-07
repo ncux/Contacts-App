@@ -1,0 +1,4 @@
+{
+  "dbUrl": "mongodb://mLabMongoDBdb:mLabMongoDBdb@ds143039.mlab.com:43039/note-taker",
+  "jwtSecret": "595131891870-thatWasAD1Zastar.apps.googleusercontent.com"
+}
